@@ -8,7 +8,7 @@
 bitful-typora-upload-tools -u "BitfulUrl"
 ```
 
-2. dev build
+or dev build
 
 ```bash
 git clone https://github.com/XRSec/bitful-typora-upload-tools.git
@@ -19,7 +19,7 @@ CGO_ENABLED=0 go build -o bitful-typora-upload-tools
 # cd .. && rm -rf bitful-typora-upload-tools
 ```
 
-3. Open Typora and set `Tools` -> `Preference` -> `Image` -> `Upload Image` -> `Custom Command` -> `/home/xxx/bitful-typora-upload-tools`
+2. Open Typora and set `Tools` -> `Preference` -> `Image` -> `Upload Image` -> `Custom Command` -> `/home/xxx/bitful-typora-upload-tools`
 
 ### Generating configuration files
 
