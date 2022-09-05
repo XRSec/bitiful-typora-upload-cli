@@ -2,7 +2,7 @@
 
 ## Install & Use
 
-1. [Release Download](/releases)
+1. [Release Download](https://github.com/XRSec/bitful-typora-upload-tools/releases)
 
 ```bash
 bitful-typora-upload-tools -u "BitfulUrl"
