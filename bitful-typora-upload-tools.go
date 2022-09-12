@@ -261,7 +261,7 @@ func UploadFile(fileName string, file []byte) {
 	if err != nil {
 		logEnd(ErrorColor, "json unmarshal Error: %v", err.Error())
 	}
-	fmt.Println(result.Data.Url)
+	fmt.Println(strings.Replace(result.Data.Url, "&fmt=jpg", "&fmt=png", 1))
 	// fmt.Println(result.Data.OUrl) // 原图
 }
 
