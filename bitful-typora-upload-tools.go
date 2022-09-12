@@ -137,6 +137,28 @@ func httpImg(imgUrl string) {
 	UploadFile(imgName, data)
 }
 
+func fileImg(imgUrl string) {
+	file, err := os.Open(imgUrl)
+	if err != nil {
+		logEnd(ErrorColor, "open file Error: %v", err.Error())
+	}
+	defer func(file *os.File) {
+		if err := file.Close(); err != nil {
+			logEnd(ErrorColor, "close file Error: %v", err.Error())
+		}
+	}(file)
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		logEnd(ErrorColor, "read file Error: %v", err.Error())
+	}
+	imgName := getImgName(imgUrl)
+	UploadFile(imgName, fileBytes)
+	if err := os.Remove(imgUrl); err != nil {
+		logEnd(ErrorColor, "remove file Error: %v", err.Error())
+		return
+	}
+}
+
 func getImgName(imgUrl string) (imgName string) {
 	//filetype := http.DetectContentType(data)
 	var imgType string
@@ -248,27 +270,6 @@ func logEnd(lv1, lv2, lv3 string) {
 		fmt.Sprintf(lv1,
 			fmt.Sprintf(lv2, lv3)),
 		fmt.Sprintf(InfoColor, "-------------------------------"))
-}
-
-func fileImg(imgUrl string) {
-	file, err := os.Open(imgUrl)
-	if err != nil {
-		logEnd(ErrorColor, "open file Error: %v", err.Error())
-	}
-	defer func(file *os.File) {
-		if err := file.Close(); err != nil {
-			logEnd(ErrorColor, "close file Error: %v", err.Error())
-		}
-	}(file)
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		logEnd(ErrorColor, "read file Error: %v", err.Error())
-	}
-	imgName := getImgName(imgUrl)
-	UploadFile(imgName, fileBytes)
-	if err != nil {
-		logEnd(ErrorColor, "upload file Error: %v", err.Error())
-	}
 }
 
 func generateConfig() {
