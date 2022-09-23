@@ -87,9 +87,7 @@ func init() {
 	if help {
 		//flag.Usage()
 		log.Printf("%v%v\n",
-			fmt.Sprintf(DebugColor,
-				"Usage of dog\n\n-c -cover\n\tcover image name\n-h -help\n\tshow help\n-v -version\n\tshow version"),
-			fmt.Sprintf(InfoColor, "-------------------------------"))
+		fmt.Printf("\033[0;34mUsage of %v:\n\n\033[1;36m -c -cover\n\tcover image name\n -h -help\n\tshow help\n -v -version\n\tshow version\033[0m\n\u001B[1;34m-------------------------------\u001B[0m\n", os.Args[0])
 		os.Exit(0)
 	}
 	// Version
