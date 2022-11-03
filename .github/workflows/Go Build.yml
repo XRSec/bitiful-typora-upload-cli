@@ -24,10 +24,12 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Get Data
-        run: echo "{time}=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        id: time
+        run: echo "dir=$(date +'%Y-%m-%d/%H:%M:%S')" >> $GITHUB_OUTPUT
       -
         name: Get commitId
-        run: echo "{commitId}=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        id: commitId
+        run: echo "dir=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
       -
         name: Build with xgo
         uses: crazy-max/ghaction-xgo@v1
@@ -40,7 +42,7 @@ jobs:
           v: false
           x: true
           race: false
-          ldflags: -s -w -X main.buildTime=${{ env.time }} -X main.versionData=${{ github.event.inputs.tagName }} -X main.commitId=${{ env.commitId }} -X main.author=XRSec
+          ldflags: -s -w -X main.buildTime=${{ steps.time.outputs.dir }} -X main.versionData=${{ github.event.inputs.tagName }} -X main.commitId=${{ steps.commitId.outputs.dir }} -X main.author=XRSec
           buildmode: default
       -
         name: Delete old Releases
