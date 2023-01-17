@@ -1,50 +1,45 @@
-## Bitful Typora Upload Tools
+## Bitiful Typora Upload CLI
 
 ## Install & Use
 
-1. [Release Download](https://github.com/XRSec/bitful-typora-upload-tools/releases)
+1. [Release Download](https://github.com/XRSec/bitiful-typora-upload-cli/releases)
 
 ```bash
-bitful-typora-upload-tools -u "BitfulUrl"
+bitiful # require config file
+bitiful "/example/example.png"
+bitiful "https://example.com/example.png"
 ```
 
 or dev build
 
 ```bash
-git clone https://github.com/XRSec/bitful-typora-upload-tools.git
-cd bitful-typora-upload-tools
-# Edit BitfulUrl in bitful-typora-upload-tools.go
-CGO_ENABLED=0 go build -o bitful-typora-upload-tools
-# mv bitful-typora-upload-tools /usr/local/bin
-# cd .. && rm -rf bitful-typora-upload-tools
+git clone https://github.com/XRSec/bitiful-typora-upload-cli.git
+cd bitiful-typora-upload-cli
+# Edit bitifulUrl in bitiful-typora-upload-cli.go
+CGO_ENABLED=0 go build -o bitiful
+# mv bitiful /usr/local/bin
+# cd .. && rm -rf bitiful-typora-upload-cli
 ```
 
-2. Open Typora and set `Tools` -> `Preference` -> `Image` -> `Upload Image` -> `Custom Command` -> `/home/xxx/bitful-typora-upload-tools`
+2. Open Typora and set `cli` -> `Preference` -> `Image` -> `Upload Image` -> `Custom Command` -> `/home/xxx/bitiful`
 
-### Generating configuration files
+## Config
 
-```bash
-bitful-typora-upload-tools -u "BitfulUrl"
+```yaml
+AccessKeyID: "xxxxxxxxxxx"
+AccessKeySecret: "xxxxxxxxxxxxxxxx"
+BucketName: "xxxxxxxxxx"
+Path: "/xxxxxxxx/"
 ```
 
 ### Cover image
 
 ```bash
-bitful-typora-upload-tools -c "20220903" https://example.com/20220903.jpg
+bitiful -u -n "20220903" -f https://example.com/20220903.jpg
+bitiful -u -f/Users/xxx/xxx.png -nTest.png
 ```
-### High-definition pictures
-
-```bash
-bitful-typora-upload-tools.go > UploadFile > fmt.Println(result.Data.Url) ==> fmt.Println(result.Data.OUrl)
-```
-
-or delete `?w=1280&fmt=jpg`
-
 ## Doing
 
 - [x] file
 - [x] url
 - [?] ftp/smb/afs
-
-## Todo
-- [ ] cli
