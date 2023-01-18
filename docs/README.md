@@ -1,5 +1,9 @@
 ## Bitiful Typora Upload CLI
 
+![show1](https://xrsec.s3.ladydaily.com/IMG/2023011808315652353.gif?fmt=webp&q=48)
+
+![show2](https://xrsec.s3.ladydaily.com/IMG/2023011808320175950.gif?fmt=webp&q=48)
+
 ## Install & Use
 
 1. [Release Download](https://github.com/XRSec/bitiful-typora-upload-cli/releases)
