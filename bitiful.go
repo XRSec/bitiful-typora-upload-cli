@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"github.com/Bios-Marcel/wastebasket"
@@ -16,6 +17,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io"
+	"net"
 	"net/http"
 	"os"
 	"path"
@@ -35,6 +37,41 @@ var (
 	imageType   bool
 	err         error
 )
+
+func init() {
+	dir, err := os.UserConfigDir()
+	if err != nil {
+		return
+	}
+	configFile := dir + "/" + path.Base(os.Args[0]) + ".yml"
+	viper.SetConfigFile(configFile)
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("读取配置文件失败: %v", err)
+	}
+	// HttpClient 注意client 本身是连接池，不要每次请求时创建client
+	dialer := &net.Dialer{
+		Resolver: &net.Resolver{
+			PreferGo: true,
+			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+				d := net.Dialer{
+					Timeout: time.Duration(5000) * time.Millisecond,
+				}
+				return d.DialContext(ctx, "udp", "8.8.8.8:53")
+			},
+		},
+	}
+	dialContext := func(ctx context.Context, network, addr string) (net.Conn, error) {
+		return dialer.DialContext(ctx, network, addr)
+	}
+	HttpClient = &http.Client{
+		Timeout: 5 * time.Second,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			Proxy:           http.ProxyFromEnvironment,
+			DialContext:     dialContext,
+		},
+	}
+}
 
 var rootCmd = &cobra.Command{
 	Short:   "TYPORA UPLOAD IAMGE TO AWS",
@@ -73,8 +110,7 @@ var rootCmd = &cobra.Command{
 					return
 				}
 			}
-			log.Infof("Success: https://%v.%v%v%v?fmt=webp&q=48", viper.GetString("BucketName"), Endpoint, viper.GetString("Path"), fileName)
-
+			fmt.Printf("https://%v.%v%v%v?fmt=webp&q=48\n", viper.GetString("BucketName"), Endpoint, viper.GetString("Path"), fileName)
 		}
 	},
 	Example: `  - bitiful /Users/xxx/xxx.png
