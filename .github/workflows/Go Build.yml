@@ -21,7 +21,7 @@ jobs:
     steps:
       -
         name: Private Actions Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: Get Data
         id: time
@@ -32,7 +32,7 @@ jobs:
         run: echo "dir=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
       -
         name: Build with xgo
-        uses: crazy-max/ghaction-xgo@v1
+        uses: crazy-max/ghaction-xgo@v2
         with:
           xgo_version: latest
           go_version: ${{ matrix.go_version }}
