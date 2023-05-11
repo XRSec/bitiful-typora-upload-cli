@@ -79,6 +79,11 @@ var rootCmd = &cobra.Command{
 	Version: versionData,
 
 	Run: func(cmd *cobra.Command, args []string) {
+		if args == nil || len(args) == 0 {
+			args = append(args, file)
+		}
+		//log.Infof("args %v", args)
+		//log.Infof("update {%v} file {%v} name {%v}", update, file, name)
 		for _, v := range args {
 			var data []byte
 			getImgName(v)
