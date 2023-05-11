@@ -143,43 +143,16 @@ func CreateS3Session() {
 
 func getImgName(image string) {
 	//filetype := http.DetectContentType(data)
-	var imgType string
-	fileNameAll := path.Base(image)
-	fileSuffix := path.Ext(image)
-	filePrefix := fileNameAll[0 : len(fileNameAll)-len(fileSuffix)]
-
-	if len(filePrefix) <= 4 {
-		imgType = fileSuffix
-	} else {
-		// png, jpg, jpeg, gif, bmp, webp, ico, tiff, svg
-		if strings.Contains(fileSuffix, "png") {
-			imgType = ".png"
-		} else if strings.Contains(fileSuffix, "jpg") {
-			imgType = ".jpg"
-		} else if strings.Contains(fileSuffix, "jpeg") {
-			imgType = ".jpeg"
-		} else if strings.Contains(fileSuffix, "gif") {
-			imgType = ".gif"
-		} else if strings.Contains(fileSuffix, "bmp") {
-			imgType = ".bmp"
-		} else if strings.Contains(fileSuffix, "webp") {
-			imgType = ".webp"
-		} else if strings.Contains(fileSuffix, "ico") {
-			imgType = ".ico"
-		} else if strings.Contains(fileSuffix, "tiff") {
-			imgType = ".tiff"
-		} else if strings.Contains(fileSuffix, "svg") {
-			imgType = ".svg"
-		} else {
-			log.Errorf("不支持的图片格式: %v", fileSuffix)
-		}
+	fileNameAll := path.Base(image) // 文件全名
+	fileSuffix := path.Ext(image)   // 文件类型
+	fileName = fileNameAll
+	if fileSuffix == "" {
+		fileSuffix = ".png"
 	}
 
 	// 检测是否覆盖
-	if update {
-		fileName = name + imgType
-	} else {
-		fileName = strings.Replace(time.Now().Format("20060102150405.00000"), ".", "", -1) + imgType
+	if !update {
+		fileName = strings.Replace(time.Now().Format("20060102150405.00000"), ".", "", -1) + fileSuffix
 	}
 }
 
