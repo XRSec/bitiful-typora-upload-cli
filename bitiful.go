@@ -26,7 +26,7 @@ import (
 )
 
 var (
-	Endpoint    = "s3.ladydaily.com"
+	Endpoint    = "s3.bitiful.net"
 	SVC         *s3.S3
 	update      bool
 	file        string
