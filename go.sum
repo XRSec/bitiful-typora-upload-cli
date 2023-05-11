@@ -158,6 +158,10 @@ github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
 github.com/rogpeppe/go-internal v1.6.1 h1:/FiVV8dS/e+YqF2JvO3yXRFbBLTIuSDkuC7aBOAvL+k=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
+github.com/shamsher31/goimgext v1.0.0 h1:wFKf9GeeE0Xr6UQtliaPgYYgTju2izobM7XpCEgUCC8=
+github.com/shamsher31/goimgext v1.0.0/go.mod h1:rYLKgXuTGBIaH49z+jUVSWz7gUWIZmqvYUsdvJbNNOc=
+github.com/shamsher31/goimgtype v1.0.0 h1:7nmPz5GEb01sjFUojCbZJcBI68A8tmLXoCFbb5I34u4=
+github.com/shamsher31/goimgtype v1.0.0/go.mod h1:OZm3NZQDbK0ezlk9IV5oq3cWQwjF1oVSxKNx19bkf64=
 github.com/sirupsen/logrus v1.9.0 h1:trlNQbNUG3OdDrDil03MCb1H2o9nJ1x4/5LYw7byDE0=
 github.com/sirupsen/logrus v1.9.0/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/afero v1.9.2 h1:j49Hj62F0n+DaZ1dDCvhABaPNSGNkt32oRFxI33IEMw=
