@@ -43,7 +43,7 @@ func init() {
 	if err != nil {
 		return
 	}
-	configFile := dir + "/bitiful.yml"
+	configFile := dir + "/" + path.Base(os.Args[0]) + ".yml"
 	viper.SetConfigFile(configFile)
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("读取配置文件失败: %v", err)
@@ -79,13 +79,11 @@ var rootCmd = &cobra.Command{
 	Version: versionData,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		update = true
-		file = "https://xrsec.s3.bitiful.net/IMG/20201208143817321505.png"
 		if args == nil || len(args) == 0 {
 			args = append(args, file)
 		}
-		log.Infof("args %v", args)
-		log.Infof("update {%v} file {%v} name {%v}", update, file, name)
+		//log.Infof("args %v", args)
+		//log.Infof("update {%v} file {%v} name {%v}", update, file, name)
 		for _, v := range args {
 			var data []byte
 			getImgName(v)
@@ -145,16 +143,43 @@ func CreateS3Session() {
 
 func getImgName(image string) {
 	//filetype := http.DetectContentType(data)
-	fileNameAll := path.Base(image) // 文件全名
-	fileSuffix := path.Ext(image)   // 文件类型
-	fileName = fileNameAll
-	if fileSuffix == "" {
-		fileSuffix = ".png"
+	var imgType string
+	fileNameAll := path.Base(image)
+	fileSuffix := path.Ext(image)
+	filePrefix := fileNameAll[0 : len(fileNameAll)-len(fileSuffix)]
+
+	if len(filePrefix) <= 4 {
+		imgType = fileSuffix
+	} else {
+		// png, jpg, jpeg, gif, bmp, webp, ico, tiff, svg
+		if strings.Contains(fileSuffix, "png") {
+			imgType = ".png"
+		} else if strings.Contains(fileSuffix, "jpg") {
+			imgType = ".jpg"
+		} else if strings.Contains(fileSuffix, "jpeg") {
+			imgType = ".jpeg"
+		} else if strings.Contains(fileSuffix, "gif") {
+			imgType = ".gif"
+		} else if strings.Contains(fileSuffix, "bmp") {
+			imgType = ".bmp"
+		} else if strings.Contains(fileSuffix, "webp") {
+			imgType = ".webp"
+		} else if strings.Contains(fileSuffix, "ico") {
+			imgType = ".ico"
+		} else if strings.Contains(fileSuffix, "tiff") {
+			imgType = ".tiff"
+		} else if strings.Contains(fileSuffix, "svg") {
+			imgType = ".svg"
+		} else {
+			log.Errorf("不支持的图片格式: %v", fileSuffix)
+		}
 	}
 
 	// 检测是否覆盖
-	if !update {
-		fileName = strings.Replace(time.Now().Format("20060102150405.00000"), ".", "", -1) + fileSuffix
+	if update {
+		fileName = name + imgType
+	} else {
+		fileName = strings.Replace(time.Now().Format("20060102150405.00000"), ".", "", -1) + imgType
 	}
 }
 
