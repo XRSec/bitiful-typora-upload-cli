@@ -123,7 +123,7 @@ var rootCmd = &cobra.Command{
 					return
 				}
 			}
-			fmt.Printf("https://%v.%v%v%v?fmt=webp&q=48\n", viper.GetString("BucketName"), Endpoint, viper.GetString("Path"), fileName)
+			fmt.Printf("https://%v.%v%v%v?fmt=webp&q=48&w=800\n", viper.GetString("BucketName"), Endpoint, viper.GetString("Path"), fileName)
 		}
 	},
 	Example: `  - bitiful /Users/xxx/xxx.png
