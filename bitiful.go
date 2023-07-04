@@ -27,6 +27,7 @@ import (
 
 var (
 	Endpoint    = "s3.bitiful.net"
+	Region      = "cn-east-1"
 	SVC         *s3.S3
 	update      bool
 	file        string
@@ -48,6 +49,13 @@ func init() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("读取配置文件失败: %v", err)
 	}
+	if viper.GetString("Endpoint") != "" {
+		Endpoint = viper.GetString("Endpoint")
+	}
+	if viper.GetString("Region") != "" {
+		Region = viper.GetString("Region")
+	}
+
 	// HttpClient 注意client 本身是连接池，不要每次请求时创建client
 	dialer := &net.Dialer{
 		Resolver: &net.Resolver{
@@ -128,7 +136,7 @@ var rootCmd = &cobra.Command{
 func CreateS3Session() {
 	SVC = s3.New(session.Must(session.NewSession(
 		&aws.Config{
-			Region:           aws.String("cn-north-1"),
+			Region:           aws.String(Region),
 			Endpoint:         aws.String(Endpoint),
 			S3ForcePathStyle: aws.Bool(false),
 			DisableSSL:       aws.Bool(true),

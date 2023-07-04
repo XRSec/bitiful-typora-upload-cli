@@ -30,6 +30,8 @@ CGO_ENABLED=0 go build -o bitiful
 ## Config
 
 ```yaml
+Endpoint: s3.bitiful.net
+Region: cn-east-1
 AccessKeyID: "xxxxxxxxxxx"
 AccessKeySecret: "xxxxxxxxxxxxxxxx"
 BucketName: "xxxxxxxxxx"

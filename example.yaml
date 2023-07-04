@@ -1,0 +1,6 @@
+Endpoint: s3.bitiful.net
+Region: cn-east-1
+AccessKeyID: "xxxxxxxxxxx"
+AccessKeySecret: "xxxxxxxxxxxxxxxx"
+BucketName: "xxxxxxxxxx"
+Path: "/xxxxxxxx/"
