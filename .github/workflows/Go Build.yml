@@ -1,14 +1,10 @@
 name: Build
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      TagID:
-        description: 'Set release name'
-        required: true
-        default: "0.0.1"
-  # watch:
-  #   types: [started]
 
 jobs:
   Build:
@@ -27,6 +23,21 @@ jobs:
         id: commitId
         run: echo "dir=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
       -
+        name: Get latest version
+        id: current-version
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        with:
+          latest: true
+          prerelease: false
+      -
+        name: Generate next version
+        uses: HardNorth/github-version-generate@v1.3.0
+        with:
+          version: ${{ steps.current-version.outputs.tag_name }}
+          next-version-increment-patch: true
+      -
         name: Build with xgo
         uses: crazy-max/ghaction-xgo@v2
         with:
@@ -38,7 +49,7 @@ jobs:
           v: false
           x: true
           race: false
-          ldflags: -s -w -X main.buildTime=${{ steps.time.outputs.dir }} -X main.versionData=${{ github.event.inputs.TagID }} -X main.commitId=${{ steps.commitId.outputs.dir }} -X main.author=XRSec
+          ldflags: -s -w -X main.buildTime=${{ steps.time.outputs.dir }} -X main.versionData=${{ github.event.inputs.RELEASE_NAME }} -X main.commitId=${{ steps.commitId.outputs.dir }} -X main.author=XRSec
           buildmode: default
       -
         name: Delete old Releases
@@ -55,8 +66,8 @@ jobs:
         with:
           files: "bin/**"
           body_path: docs/README.md
-          name: ${{ github.event.inputs.TagID }}
-          tag_name: ${{ github.event.inputs.TagID }}
+          name: ${{ env.NEXT_VERSION }}
+          tag_name: ${{ env.NEXT_VERSION }}
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
