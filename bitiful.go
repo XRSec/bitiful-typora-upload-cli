@@ -44,7 +44,8 @@ func init() {
 	if err != nil {
 		return
 	}
-	configFile := dir + "/" + path.Base(os.Args[0]) + ".yml"
+	userPath := strings.ReplaceAll(dir, "\\", "/")
+	configFile := path.Join(userPath, "bitiful.yml")
 	viper.SetConfigFile(configFile)
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("读取配置文件失败: %v", err)

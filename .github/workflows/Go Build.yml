@@ -3,12 +3,8 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      releaseName:
+      TagID:
         description: 'Set release name'
-        required: true
-        default: "0.0.1"
-      tagName:
-        description: 'Set tag name'
         required: true
         default: "0.0.1"
   # watch:
@@ -42,7 +38,7 @@ jobs:
           v: false
           x: true
           race: false
-          ldflags: -s -w -X main.buildTime=${{ steps.time.outputs.dir }} -X main.versionData=${{ github.event.inputs.tagName }} -X main.commitId=${{ steps.commitId.outputs.dir }} -X main.author=XRSec
+          ldflags: -s -w -X main.buildTime=${{ steps.time.outputs.dir }} -X main.versionData=${{ github.event.inputs.TagID }} -X main.commitId=${{ steps.commitId.outputs.dir }} -X main.author=XRSec
           buildmode: default
       -
         name: Delete old Releases
@@ -59,8 +55,8 @@ jobs:
         with:
           files: "bin/**"
           body_path: docs/README.md
-          name: ${{ github.event.inputs.releaseName }}
-          tag_name: ${{ github.event.inputs.tagName }}
+          name: ${{ github.event.inputs.TagID }}
+          tag_name: ${{ github.event.inputs.TagID }}
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
