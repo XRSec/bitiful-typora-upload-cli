@@ -1,33 +1,38 @@
-## Bitiful Typora Upload CLI
+## Bitiful Typora 图片上传 命令行工具
 
 ![show1](https://xrsec.s3.bitiful.net/IMG/2023011808315652353.gif?fmt=webp&q=48)
 
 ![show2](https://xrsec.s3.bitiful.net/IMG/2023011808320175950.gif?fmt=webp&q=48)
 
-## Install & Use
+## 安装与使用
 
-1. [Release Download](https://github.com/XRSec/bitiful-typora-upload-cli/releases)
+1. [发布版下载](https://github.com/XRSec/bitiful-typora-upload-cli/releases)
 
 ```bash
-bitiful # require config file
+bitiful # 需要配置文件
 bitiful "/example/example.png"
 bitiful "https://example.com/example.png"
+bitiful /path/to/1.png /path/to/2.jpg # 支持多文件批量上传
 ```
 
-or dev build
+2. 开发构建
 
 ```bash
 git clone https://github.com/XRSec/bitiful-typora-upload-cli.git
 cd bitiful-typora-upload-cli
-# Edit bitifulUrl in bitiful-typora-upload-cli.go
+# 编辑 bitifulUrl 变量
 CGO_ENABLED=0 go build -o bitiful
 # mv bitiful /usr/local/bin
 # cd .. && rm -rf bitiful-typora-upload-cli
 ```
 
-2. Open Typora and set `cli` -> `Preference` -> `Image` -> `Upload Image` -> `Custom Command` -> `/home/xxx/bitiful`
+3. 打开 Typora，`偏好设置` -> `图片` -> `上传图片` -> `自定义命令` -> `/home/xxx/bitiful`
 
-## Config
+## 配置文件
+
+配置文件路径：`~/Library/Application\ Support/bitiful.yml`
+
+### 配置文件示例
 
 ```yaml
 Endpoint: s3.bitiful.net
@@ -38,14 +43,36 @@ BucketName: "xxxxxxxxxx"
 Path: "/xxxxxxxx/"
 ```
 
-### Cover image
+### 指定文件名（覆盖上传）
+
+如需自定义上传后的文件名（如封面图），可用 `-n` 参数：
 
 ```bash
-bitiful -u -n "20220903" -f https://example.com/20220903.jpg
-bitiful -u -f/Users/xxx/xxx.png -nTest.png
+bitiful -n "20220903.jpg" https://example.com/20220903.jpg
+bitiful -n Test.png /Users/xxx/xxx.png
 ```
-## Doing
 
-- [x] file
-- [x] url
+- 仅当指定 `-n` 时，才会用该名字覆盖同名文件。
+- 未指定 `-n` 时，自动生成唯一文件名，绝不覆盖。
+
+### 多文件批量上传
+
+直接在命令行追加多个文件或URL即可：
+
+```bash
+bitiful /path/to/1.png /path/to/2.jpg
+```
+
+### 日志与调试
+
+加 `-v` 参数可显示详细日志，便于排查问题：
+
+```bash
+bitiful -v /path/to/1.png
+```
+
+## 功能进度
+
+- [x] 本地文件上传
+- [x] URL 上传
 - [?] ftp/smb/afs
