@@ -97,18 +97,8 @@ jobs:
             echo "URL=${URL}" >> $GITHUB_OUTPUT
           fi
       -
-        name: Send dingding notify
-        uses: zcong1993/actions-ding@master
+        name: Send notification to Feishu
+        uses: XRSec/feishu-bot-webhook-action@v1
         with:
-          dingToken: ${{ SECRETS.DING_TOKEN }}
-          secret: ${{ SECRETS.DING_SECRET }}
-          body: |
-            {
-              "msgtype": "link",
-              "link": {
-                  "text": "${{ steps.getDingData.outputs.DESCRIPTION }}",
-                  "title":  "${{ steps.getDingData.outputs.REPOSITORY }} WorkFlow ${{ GITHUB.JOB }} Success!",
-                  "picUrl": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-                  "messageUrl": "${{ steps.getDingData.outputs.URL }}"
-              }
-            }
+          FEISHU_BOT_WEBHOOK: ${{ secrets.FEISHU_BOT_WEBHOOK }}
+          FEISHU_BOT_SIGNKEY: ${{ secrets.FEISHU_BOT_SIGNKEY }}
