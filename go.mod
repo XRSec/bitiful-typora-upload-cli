@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/Bios-Marcel/wastebasket v0.0.2
 	github.com/aws/aws-sdk-go v1.44.180
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.1
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
 )
